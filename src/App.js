@@ -7,12 +7,16 @@ function App() {
   const nameRef = useState();  
   const firstsurnameRef = useState();  
   const secondsurnameRef = useState();   
-  const[varfiles, setFiles]=useState();
+  const[profileimage, setPIFile]=useState();
+  const[backgroundimage, setBIFile]=useState();
 
-  const UploadFile=e=>{
-    setFiles(e);
+  const UploadProfileImage=e=>{
+    setPIFile(e);
   }
 
+  const UploadBackgroudImage=e=>{
+    setBIFile(e);
+  }
 
   const submitform = async() => {
 
@@ -22,7 +26,9 @@ function App() {
     f.append("nombre", nameRef.current.value);
     f.append("primerapellido", firstsurnameRef.current.value);
     f.append("segundoapellido", secondsurnameRef.current.value);
-    f.append("file", varfiles[0]);
+    f.append("profileimage", profileimage[0]);
+    f.append("backgroundimage", backgroundimage[0]);
+
 
     await axios.post("http://localhost:3001/api/v1/step", f, {headers: {'Content-Type': 'multipart/form-data'}})
     .then(response=>{
@@ -57,7 +63,13 @@ function App() {
         </div>
 
         <div className="col-xl-12 col-lg-12 col-md-12 col-xs-12" style={{"padding-top": "15px"}}>
-            <input type="file" name="file" className="form-control col" onChange={(e)=>UploadFile(e.target.files)}/>
+            <label className="form-label col d-flex flex-row">Profile Image</label>
+            <input type="file" name="profileimage" className="form-control col" onChange={(e)=>UploadProfileImage(e.target.files)}/>
+        </div>
+
+        <div className="col-xl-12 col-lg-12 col-md-12 col-xs-12" style={{"padding-top": "15px"}}>
+            <label className="form-label col d-flex flex-row">Background Image</label>
+            <input type="file" name="backgroundimage" className="form-control col" onChange={(e)=>UploadBackgroudImage(e.target.files)}/>
         </div>
     </div>
 
