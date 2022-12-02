@@ -30,7 +30,7 @@ function App() {
     f.append("backgroundimage", backgroundimage[0]);
 
 
-    await axios.post("http://localhost:3001/api/v1/step", f, {headers: {'Content-Type': 'multipart/form-data'}})
+    await axios.post("http://localhost:3001/api/v1/CreateUniversalProfile", f, {headers: {'Content-Type': 'multipart/form-data'}})
     .then(response=>{
       console.log(response.data);
     }).catch(error=>{
