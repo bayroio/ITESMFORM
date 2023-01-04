@@ -1,87 +1,54 @@
-import React, { useState } from 'react';
-import axios from'axios';
+import Container from 'react-bootstrap/Container';
+import Nav from 'react-bootstrap/Nav';
+import Navbar from 'react-bootstrap/Navbar';
+import NavDropdown from 'react-bootstrap/NavDropdown';
+import { Routes, Route, Link } from 'react-router-dom';
 
+// Import pages
+import Home from "./pages/Home"
+import CUP from "./pages/UniversalProfile/Create"
+import RUP from "./pages/UniversalProfile/Read"
+import UUP from "./pages/UniversalProfile/Update"
 
-function App() {
-  const mailRef = useState();  
-  const nameRef = useState();  
-  const firstsurnameRef = useState();  
-  const secondsurnameRef = useState();   
-  const[profileimage, setPIFile]=useState();
-  const[backgroundimage, setBIFile]=useState();
-
-  const UploadProfileImage=e=>{
-    setPIFile(e);
-  }
-
-  const UploadBackgroudImage=e=>{
-    setBIFile(e);
-  }
-
-  const submitform = async() => {
-
-    //add data
-    const f = new FormData();
-    f.append("correo", mailRef.current.value);
-    f.append("nombre", nameRef.current.value);
-    f.append("primerapellido", firstsurnameRef.current.value);
-    f.append("segundoapellido", secondsurnameRef.current.value);
-    f.append("profileimage", profileimage[0]);
-    f.append("backgroundimage", backgroundimage[0]);
-
-
-    await axios.post("http://localhost:3001/api/v1/CreateUniversalProfile", f, {headers: {'Content-Type': 'multipart/form-data'}})
-    .then(response=>{
-      console.log(response.data);
-    }).catch(error=>{
-      console.log(error);
-    });
-
-  };
-
-  return(
-    <div style={{"padding":"15px"}}>
-      {<img className="d-flex flex-row-reverse" src='https://ieomsociety.org/ieom/wp-content/uploads/2022/05/TEC-logo-300x79.png'/> }
-
-      <div className="row">
-        <div className="col-xl-6 col-lg-6 col-md-6 col-xs-12">
-            <label className="form-label col d-flex flex-row">Correo</label>
-            <input ref={mailRef} type="text" className="form-control col" id="txtmail"/>
-        </div>
-        <div className="col-xl-6 col-lg-6 col-md-6 col-xs-12">
-            <label className="form-label col d-flex flex-row">Nombre</label>
-            <input ref={nameRef} type="text" className="form-control col" id="txtname"/>
-        </div>
-        <div class="col-xl-6 col-lg-6 col-md-6 col-xs-12">
-            <label className="form-label col d-flex flex-row">Primer Apellido</label>
-            <input ref={firstsurnameRef} type="text" className="form-control col" id="txtfirstsurname"/>
-        </div>
-
-        <div className="col-xl-6 col-lg-6 col-md-6 col-xs-12">
-            <label className="form-label col d-flex flex-row">Segundo Apellido</label>
-            <input ref={secondsurnameRef} type="text" className="form-control col" id="txtsecondsurname"/>
-        </div>
-
-        <div className="col-xl-12 col-lg-12 col-md-12 col-xs-12" style={{"padding-top": "15px"}}>
-            <label className="form-label col d-flex flex-row">Profile Image</label>
-            <input type="file" name="profileimage" className="form-control col" onChange={(e)=>UploadProfileImage(e.target.files)}/>
-        </div>
-
-        <div className="col-xl-12 col-lg-12 col-md-12 col-xs-12" style={{"padding-top": "15px"}}>
-            <label className="form-label col d-flex flex-row">Background Image</label>
-            <input type="file" name="backgroundimage" className="form-control col" onChange={(e)=>UploadBackgroudImage(e.target.files)}/>
-        </div>
-    </div>
-
-      
-      <div className="row" style={{"padding-top": "20px"}}>
-          <div className="d-flex flex-row-reverse">
-              <button className="btn btn-primary" onClick={submitform}>Guardar</button>
-          </div>
+function BasicExample() {
+  return (
+    <div>
+      <div>
+        <Navbar bg="light" expand="lg">
+          <Container>
+            <Navbar.Brand as={Link} to="/">ITESM</Navbar.Brand>
+            <Navbar.Toggle aria-controls="basic-navbar-nav" />
+            <Navbar.Collapse id="basic-navbar-nav">
+              <Nav className="me-auto">
+                <NavDropdown title="Universal Profile" id="basic-nav-dropdown">
+                  <NavDropdown.Item as={Link} to="/Universal_Profile/Create">Create</NavDropdown.Item>
+                  <NavDropdown.Item as={Link} to="/Universal_Profile/Read">Read</NavDropdown.Item>
+                  <NavDropdown.Item as={Link} to="/Universal_Profile/Update">Update</NavDropdown.Item>
+                </NavDropdown>
+                <NavDropdown title="NFT" id="basic-nav-dropdown">
+                  <NavDropdown.Item as={Link} to="/NFT/Create">Create</NavDropdown.Item>
+                </NavDropdown>
+              </Nav>
+            </Navbar.Collapse>
+          </Container>
+        </Navbar>
       </div>
 
+      <div>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/Universal_Profile/Create" element={<CUP />} />
+          <Route path="/Universal_Profile/Read" element={<RUP />} />
+          <Route path="/Universal_Profile/Update" element={<UUP />} />
+          <Route path="/NFT/Create" element={<CUP />} />
+          <Route render={function () {
+            return <p>Not found</p>
+          }} />
+        </Routes>
+      </div>
     </div>
-  )
+  );
 }
 
-export default App;
+export default BasicExample;
+
