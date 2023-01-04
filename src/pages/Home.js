@@ -8,7 +8,7 @@ const Home = () => {
       <Container>
         <Row className="justify-content-md-center">
           <Col xs lg="2"style={{"padding":"200px 0px 0px 0px"}}>
-            {<img className="d-flex justify-content-center" width={500}  src='https://uniconexed.org/wp-content/uploads/2022/03/Tec-de-Monterrey-logo-horizontal-blue.png'/> }
+            {<img className="d-flex justify-content-center" width={500} alt="ITESM Logo" src='https://uniconexed.org/wp-content/uploads/2022/03/Tec-de-Monterrey-logo-horizontal-blue.png'/> }
           </Col>
         </Row>
       </Container>

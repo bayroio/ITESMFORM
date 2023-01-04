@@ -4,6 +4,7 @@ import { Container } from 'react-bootstrap';
 
 const Page = () => {
 
+  const addressRef = useState();
   const mailRef = useState();  
   const nameRef = useState();  
   const firstsurnameRef = useState();  
@@ -31,11 +32,14 @@ const Page = () => {
     f.append("profileimage", profileimage[0]);
     f.append("backgroundimage", backgroundimage[0]);
   
-    axios.defaults.headers['x-api-key'] = 'OvuLdc8Gb4xoSMAlfGOGnI3ZFGWJolcpNLothX2ASCdFahmJBTea7ieMMwJLFdXs';
-    await axios.post("http://localhost:3001/api/v1/CreateUniversalProfile", f, {headers: {'Content-Type': 'multipart/form-data'}})
+    axios.defaults.headers[ process.env.React_App_ApiKeyName ] = process.env.React_App_ApiKeyValue;
+    await axios.post(process.env.React_App_Endpoint + "/api/v1/CreateUniversalProfile", f, {headers: {'Content-Type': 'multipart/form-data'}})
     .then(response=>{
+      addressRef.current.value = response.data;
+      alert("Universal Profile creado correctamente");
       console.log(response.data);
     }).catch(error=>{
+      alert("Servicio no disponible, por favor intente más tarde");
       console.log(error);
     });
   
@@ -83,7 +87,16 @@ const Page = () => {
             </div>
         </div>
 
+        <hr />
 
+        {/* general data */}
+        <div className="row" style={{"margin-top":"50px"}}>
+            <h2>Address Universal Profile</h2>
+            <div className="col-xl-6 col-lg-6 col-md-6 col-xs-12">
+                <label className="form-label col d-flex flex-row">Address</label>
+                <input ref={addressRef} type="text" className="form-control col" id="txtaddress"/>
+            </div>
+        </div>
 
       </Container>
     </div>
