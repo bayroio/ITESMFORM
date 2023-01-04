@@ -8,7 +8,8 @@ const Page = () => {
     const mailRef = useState();
     const nameRef = useState();
     const profileRef = useState();
-    const backgroundRef = useState();    
+    const backgroundRef = useState();
+    const nftRef = useState();
     
     const submitform = async() => {
         const f = new FormData();
@@ -21,8 +22,17 @@ const Page = () => {
                 //console.log("https://2eff.lukso.dev/ipfs/" + response.data[1].value.LSP3Profile.profileImage[0].url);
                 mailRef.current.value = response.data[1].value.LSP3Profile.description;
                 nameRef.current.value = response.data[1].value.LSP3Profile.name;
-                profileRef.current.value = "https://2eff.lukso.dev/ipfs/" + response.data[1].value.LSP3Profile.profileImage[0].url;
-                backgroundRef.current.value = "https://2eff.lukso.dev/ipfs/" + response.data[1].value.LSP3Profile.backgroundImage[0].url;
+                profileRef.current.src = "https://2eff.lukso.dev/ipfs/" + response.data[1].value.LSP3Profile.profileImage[0].url;
+                backgroundRef.current.src = "https://2eff.lukso.dev/ipfs/" + response.data[1].value.LSP3Profile.backgroundImage[0].url;
+                
+                let resultnft = "";
+                for(let i=0; i < response.data[3].value.length; i++){
+                    resultnft = resultnft + response.data[3].value[i] + '\n';
+                }
+                
+                console.log(resultnft);
+                nftRef.current.value = resultnft;
+                 
             }
         ).catch(error=>{
             console.log(error);
@@ -51,29 +61,35 @@ const Page = () => {
         <hr />
 
         {/* general data */}
-        <div className="row">
-          <div className="col-xl-6 col-lg-6 col-md-6 col-xs-12">
-              <label className="form-label col d-flex flex-row">Correo</label>
-              <input ref={mailRef} type="text" className="form-control col" id="txtmail"/>
-          </div>
-          <div className="col-xl-6 col-lg-6 col-md-6 col-xs-12">
-              <label className="form-label col d-flex flex-row">Nombre</label>
-              <input ref={nameRef} type="text" className="form-control col" id="txtname"/>
-          </div>
-        </div>
-
-        {/* images */}
-        <div className="row">
+        <div className="row" style={{"margin-top":"50px"}}>
+            <h2>Datos Generales</h2>
+            <div className="col-xl-6 col-lg-6 col-md-6 col-xs-12">
+                <label className="form-label col d-flex flex-row">Correo</label>
+                <input ref={mailRef} type="text" className="form-control col" id="txtmail"/>
+            </div>
+            <div className="col-xl-6 col-lg-6 col-md-6 col-xs-12">
+                <label className="form-label col d-flex flex-row">Nombre</label>
+                <input ref={nameRef} type="text" className="form-control col" id="txtname"/>
+            </div>
             <div className="col-xl-6 col-lg-6 col-md-6 col-xs-12">
                 <label className="form-label col d-flex flex-row">Imagen de Perfil</label>
-                <input ref={profileRef} type="text" className="form-control col" id="txtprofileimage"/>
+                <img ref={profileRef} id="txtprofileimage" alt="profile"/>
             </div>
 
             <div className="col-xl-6 col-lg-6 col-md-6 col-xs-12">
                 <label className="form-label col d-flex flex-row">Fondo de Perfil</label>
-                <input ref={backgroundRef} type="text" className="form-control col" id="txtbackgroundimage"/>
+                <img ref={backgroundRef} id="txtbackgroundimage" alt="background"/>
             </div>
         </div>
+
+        <div className="row" style={{"margin-top":"50px"}}>
+            <h2>NFT</h2>
+            <div className="col-xl-12 col-lg-12 col-md-12 col-xs-12">
+                <label className="form-label col d-flex flex-row">NFT</label>
+                <textarea ref={nftRef} type="text" className="form-control col" id="txtnft" style={{"min-height":"100px"}}/>
+            </div>
+        </div>
+
 
       </Container>
     </div>
