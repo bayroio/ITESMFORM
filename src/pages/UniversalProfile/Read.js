@@ -15,15 +15,16 @@ const Page = () => {
         const f = new FormData();
         f.append("address", addressref.current.value);
 
-        axios.defaults.headers['x-api-key'] = 'OvuLdc8Gb4xoSMAlfGOGnI3ZFGWJolcpNLothX2ASCdFahmJBTea7ieMMwJLFdXs';
-        await axios.post("http://localhost:3001/api/v1/GetUniversalProfile", f, {headers: {'Content-Type': 'multipart/form-data'}})
+        
+        axios.defaults.headers[ process.env.React_App_ApiKeyName ] = process.env.React_App_ApiKeyValue;
+        await axios.post(process.env.React_App_Endpoint + "/api/v1/GetUniversalProfile", f, {headers: {'Content-Type': 'multipart/form-data'}})
         .then(response=>
             {
                 //console.log("https://2eff.lukso.dev/ipfs/" + response.data[1].value.LSP3Profile.profileImage[0].url);
                 mailRef.current.value = response.data[1].value.LSP3Profile.description;
                 nameRef.current.value = response.data[1].value.LSP3Profile.name;
-                profileRef.current.src = "https://2eff.lukso.dev/ipfs/" + response.data[1].value.LSP3Profile.profileImage[0].url;
-                backgroundRef.current.src = "https://2eff.lukso.dev/ipfs/" + response.data[1].value.LSP3Profile.backgroundImage[0].url;
+                profileRef.current.src = process.env.React_App_IPFS_GATEWAY + response.data[1].value.LSP3Profile.profileImage[0].url;
+                backgroundRef.current.src = process.env.React_App_IPFS_GATEWAY + response.data[1].value.LSP3Profile.backgroundImage[0].url;
                 
                 let resultnft = "";
                 for(let i=0; i < response.data[3].value.length; i++){
@@ -35,6 +36,7 @@ const Page = () => {
                  
             }
         ).catch(error=>{
+            alert("Servicio no disponible, por favor intente más tarde");
             console.log(error);
         });
     };

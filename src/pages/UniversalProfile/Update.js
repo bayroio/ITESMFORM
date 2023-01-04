@@ -3,7 +3,7 @@ import axios from'axios';
 import { Container } from 'react-bootstrap';
 
 const Page = () => {
-
+  const addressref = useState();
   const mailRef = useState();  
   const nameRef = useState();  
   const firstsurnameRef = useState();  
@@ -24,6 +24,7 @@ const Page = () => {
   
     //add data
     const f = new FormData();
+    f.append("address", addressref.current.value);
     f.append("correo", mailRef.current.value);
     f.append("nombre", nameRef.current.value);
     f.append("primerapellido", firstsurnameRef.current.value);
@@ -32,12 +33,14 @@ const Page = () => {
     f.append("backgroundimage", backgroundimage[0]);
   
   
-    axios.defaults.headers['x-api-key'] = 'OvuLdc8Gb4xoSMAlfGOGnI3ZFGWJolcpNLothX2ASCdFahmJBTea7ieMMwJLFdXs';
-    await axios.post("http://localhost:3001/api/v1/UpdateUniversalProfile", f, {headers: {'Content-Type': 'multipart/form-data'}})
+    axios.defaults.headers[ process.env.React_App_ApiKeyName ] = process.env.React_App_ApiKeyValue;
+    await axios.post(process.env.React_App_Endpoint + "/api/v1/UpdateUniversalProfile", f, {headers: {'Content-Type': 'multipart/form-data'}})
     .then(response=>{
-      console.log(response.data);
+        alert("Datos actualizados correctamente");
+        console.log(response.data);
     }).catch(error=>{
-      console.log(error);
+        alert("Servicio no disponible, por favor intente más tarde");
+        console.log(error);
     });
   
   };
@@ -49,6 +52,10 @@ const Page = () => {
           <h3>Actualizar Universal Profile</h3>
         </div>
         <div className="row">
+          <div className="col-xl-12 col-lg-12 col-md-12 col-xs-12">
+              <label className="form-label col d-flex flex-row">Address</label>
+              <input ref={addressref} type="text" className="form-control col" id="txtaddress"/>
+          </div>
           <div className="col-xl-6 col-lg-6 col-md-6 col-xs-12">
               <label className="form-label col d-flex flex-row">Correo</label>
               <input ref={mailRef} type="text" className="form-control col" id="txtmail"/>
