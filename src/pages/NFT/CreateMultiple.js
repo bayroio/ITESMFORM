@@ -8,19 +8,23 @@ const Page = () => {
     const addressnftref = useState();
     const[NFTFile, setNFile]=useState();
   
-  const UploadNFTFile=e=>{
-    setNFile(e);
-  }
+    const UploadNFTFile=e=>{
+        setNFile(e);
+        console.log(e);
+    }
   
   const submitform = async() => {
   
     //add data
     const f = new FormData();
     f.append("address", addressref.current.value);
-    f.append("filenft", NFTFile[0]);
+    for(let i=0; i<NFTFile.length; i++){
+        f.append("arrayfilenft", NFTFile[i]);
+    }
+
   
     axios.defaults.headers[ process.env.React_App_ApiKeyName ] = process.env.React_App_ApiKeyValue;
-    await axios.post(process.env.React_App_Endpoint + "/api/v1/CreateIndividualNFT", f, {headers: {'Content-Type': 'multipart/form-data'}})
+    await axios.post(process.env.React_App_Endpoint + "/api/v1/CreateMultipleNFT", f, {headers: {'Content-Type': 'multipart/form-data'}})
     .then(response=>{
         addressnftref.current.value = response.data;
         alert("NFT creado correctamente");
@@ -44,8 +48,8 @@ const Page = () => {
               <input ref={addressref} type="text" className="form-control col" id="txtaddress"/>
           </div>        
           <div className="col-xl-12 col-lg-12 col-md-12 col-xs-12" style={{"padding-top": "15px"}}>
-              <label className="form-label col d-flex flex-row">Archivo</label>
-              <input type="file" name="profileimage" className="form-control col" onChange={(e)=>UploadNFTFile(e.target.files)}/>
+              <label className="form-label col d-flex flex-row">Archivos</label>
+              <input type="file" name="profileimage" className="form-control col" multiple onChange={(e)=>UploadNFTFile(e.target.files)}/>
           </div>
         </div>
         <div className="row" style={{"padding-top": "20px"}}>
