@@ -6,6 +6,8 @@ const Page = () => {
 
     const addressref = useState();
     const addressnftref = useState();
+    const nameref = useState();
+    const descriptionref = useState();
     const[NFTFile, setNFile]=useState();
   
     const UploadNFTFile=e=>{
@@ -18,6 +20,8 @@ const Page = () => {
     //add data
     const f = new FormData();
     f.append("address", addressref.current.value);
+    f.append("name", nameref.current.value);
+    f.append("description", descriptionref.current.value);
     for(let i=0; i<NFTFile.length; i++){
         f.append("arrayfilenft", NFTFile[i]);
     }
@@ -46,7 +50,15 @@ const Page = () => {
           <div className="col-xl-6 col-lg-6 col-md-6 col-xs-12">
               <label className="form-label col d-flex flex-row">Address</label>
               <input ref={addressref} type="text" className="form-control col" id="txtaddress"/>
-          </div>        
+          </div>
+          <div className="col-xl-6 col-lg-6 col-md-6 col-xs-12">
+              <label className="form-label col d-flex flex-row">Name</label>
+              <input ref={nameref} type="text" className="form-control col" id="txtname"/>
+          </div>
+          <div className="col-xl-12 col-lg-12 col-md-12 col-xs-12">
+              <label className="form-label col d-flex flex-row">Description</label>
+              <input ref={descriptionref} type="text" className="form-control col" id="txtdescriprion"/>
+          </div>                    
           <div className="col-xl-12 col-lg-12 col-md-12 col-xs-12" style={{"padding-top": "15px"}}>
               <label className="form-label col d-flex flex-row">Archivos</label>
               <input type="file" name="profileimage" className="form-control col" multiple onChange={(e)=>UploadNFTFile(e.target.files)}/>
