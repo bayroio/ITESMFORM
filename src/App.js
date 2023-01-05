@@ -9,6 +9,7 @@ import Home from "./pages/Home"
 import CUP from "./pages/UniversalProfile/Create"
 import RUP from "./pages/UniversalProfile/Read"
 import UUP from "./pages/UniversalProfile/Update"
+import CINFT from "./pages/NFT/CreateIndividual"
 
 function BasicExample() {
   return (
@@ -26,7 +27,7 @@ function BasicExample() {
                   <NavDropdown.Item as={Link} to="/Universal_Profile/Update">Update</NavDropdown.Item>
                 </NavDropdown>
                 <NavDropdown title="NFT" id="basic-nav-dropdown">
-                  <NavDropdown.Item as={Link} to="/NFT/Create">Create</NavDropdown.Item>
+                  <NavDropdown.Item as={Link} to="/NFT/CreateIndividual">Create Individual</NavDropdown.Item>
                 </NavDropdown>
               </Nav>
             </Navbar.Collapse>
@@ -40,7 +41,7 @@ function BasicExample() {
           <Route path="/Universal_Profile/Create" element={<CUP />} />
           <Route path="/Universal_Profile/Read" element={<RUP />} />
           <Route path="/Universal_Profile/Update" element={<UUP />} />
-          <Route path="/NFT/Create" element={<CUP />} />
+          <Route path="/NFT/CreateIndividual" element={<CINFT />} />
           <Route render={function () {
             return <p>Not found</p>
           }} />
